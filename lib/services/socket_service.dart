@@ -49,7 +49,6 @@ class SocketService with ChangeNotifier {
     //   print(payload.containsKey('edad')
     //       ? 'edad: ' + payload['edad']
     //       : 'edad: Desconocida');
-
     //   notifyListeners();
     // });
   }

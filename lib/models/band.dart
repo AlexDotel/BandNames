@@ -1,24 +1,17 @@
-
 class Band {
-
   String id;
   String name;
-  String votes;
-  String ranking;
+  int votes;
 
   Band({
     required this.id,
     required this.name,
     required this.votes,
-    required this.ranking
   });
 
-  factory Band.fromMap(Map<String, dynamic> obj)
-    => Band(
-        id: obj['id'],
-        name: obj['name'],
-        votes: obj['votes'],
-        ranking: obj['ranking'],
+  factory Band.fromMap(Map<String, dynamic> obj) => Band(
+        id: obj.containsKey('id') ? obj['id'] : 'no-id'.toString(),
+        name: obj.containsKey('name') ? obj['name'] : 'no-name',
+        votes: obj.containsKey('votes') ? obj['votes'] : 0,
       );
-      
 }
