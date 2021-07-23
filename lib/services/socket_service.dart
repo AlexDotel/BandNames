@@ -19,7 +19,7 @@ class SocketService with ChangeNotifier {
 
   void _initConfig() {
     String urlSocket =
-        'http://192.168.1.124:3000'; //tu ipv4 con iPconfig (windows)
+        'https://serverbandnames.herokuapp.com/'; //tu ipv4 con iPconfig (windows)
 
     this._socket = IO.io(
         urlSocket,

@@ -52,21 +52,18 @@ class _HomePageState extends State<HomePage> {
 
     return Scaffold(
       appBar: myAppBar(title: 'BandNames', socket: socketService),
-      body: Container(
-        child: Column(
-          children: [
-            Container(
-              child: Container(
-                height: MediaQuery.of(context).size.width / 1.5,
-                child: _myGraph())),
-            Expanded(
-              child: ListView.builder(
-                  itemCount: bands.length,
-                  itemBuilder: (context, index) =>
-                      bandListTile(bands[index], context)),
-            ),
-          ],
-        ),
+      body: Column(
+        children: [
+          Container(
+              height: MediaQuery.of(context).size.width / 1.5,
+              child: _myGraph()),
+          Expanded(
+            child: ListView.builder(
+                itemCount: bands.length,
+                itemBuilder: (context, index) =>
+                    bandListTile(bands[index], context)),
+          ),
+        ],
       ),
       floatingActionButton: FloatingActionButton(
           elevation: 1, onPressed: () => addNewBand(), child: Icon(Icons.add)),
@@ -123,14 +120,12 @@ class _HomePageState extends State<HomePage> {
   }
 
   Widget _myGraph() {
-
     Map<String, double> dataMap = Map();
-    bands.forEach((banda) { 
+    bands.forEach((banda) {
       dataMap.putIfAbsent(banda.name, () => banda.votes.toDouble());
     });
 
     List<Color> colorList = [];
-
 
     return PieChart(
       dataMap: dataMap,
@@ -158,7 +153,6 @@ class _HomePageState extends State<HomePage> {
         showChartValuesOutside: false,
         decimalPlaces: 0,
       ),
-      );
-
+    );
   }
 }
