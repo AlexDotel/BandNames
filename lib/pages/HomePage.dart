@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:provider/provider.dart';
 import 'package:pie_chart/pie_chart.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 import 'package:bandnames/services/socket_service.dart';
 import 'package:bandnames/models/band.dart';
