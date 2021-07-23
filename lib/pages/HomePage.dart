@@ -1,15 +1,18 @@
 import 'dart:io';
 
-import 'package:bandnames/services/socket_service.dart';
-import 'package:bandnames/widgets/AndroidDialogWidget.dart';
-import 'package:bandnames/widgets/ConnectedIconWidget.dart';
-import 'package:bandnames/widgets/CupertinoDialogWidget.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
-import 'package:bandnames/models/band.dart';
-import 'package:bandnames/widgets/ListTileWidget.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:provider/provider.dart';
+import 'package:pie_chart/pie_chart.dart';
+import 'package:google_fonts/google_fonts.dart';
+
+import 'package:bandnames/services/socket_service.dart';
+import 'package:bandnames/models/band.dart';
+
+import 'package:bandnames/widgets/ListTileWidget.dart';
+import 'package:bandnames/widgets/AndroidDialogWidget.dart';
+import 'package:bandnames/widgets/CupertinoDialogWidget.dart';
+import 'package:bandnames/widgets/ConnectedIconWidget.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -50,9 +53,22 @@ class _HomePageState extends State<HomePage> {
 
     return Scaffold(
       appBar: myAppBar(title: 'BandNames', socket: socketService),
-      body: ListView.builder(
-          itemCount: bands.length,
-          itemBuilder: (context, index) => bandListTile(bands[index], context)),
+      body: Container(
+        child: Column(
+          children: [
+            Container(
+              child: Container(
+                height: MediaQuery.of(context).size.width / 1.5,
+                child: _myGraph())),
+            Expanded(
+              child: ListView.builder(
+                  itemCount: bands.length,
+                  itemBuilder: (context, index) =>
+                      bandListTile(bands[index], context)),
+            ),
+          ],
+        ),
+      ),
       floatingActionButton: FloatingActionButton(
           elevation: 1, onPressed: () => addNewBand(), child: Icon(Icons.add)),
     );
@@ -105,5 +121,45 @@ class _HomePageState extends State<HomePage> {
           'BandNames',
           style: TextStyle(color: Colors.black87),
         ));
+  }
+
+  Widget _myGraph() {
+
+    Map<String, double> dataMap = Map();
+    bands.forEach((banda) { 
+      dataMap.putIfAbsent(banda.name, () => banda.votes.toDouble());
+    });
+
+    List<Color> colorList = [];
+
+
+    return PieChart(
+      dataMap: dataMap,
+      animationDuration: Duration(milliseconds: 5000),
+      chartLegendSpacing: 32,
+      chartRadius: MediaQuery.of(context).size.width / 2.2,
+      // colorList: colorList,
+      initialAngleInDegree: 0,
+      chartType: ChartType.ring,
+      ringStrokeWidth: 15,
+      centerText: "BANDS",
+      legendOptions: LegendOptions(
+        showLegendsInRow: false,
+        legendPosition: LegendPosition.right,
+        showLegends: true,
+        legendShape: BoxShape.circle,
+        legendTextStyle: TextStyle(
+          fontWeight: FontWeight.w300,
+        ),
+      ),
+      chartValuesOptions: ChartValuesOptions(
+        showChartValueBackground: false,
+        showChartValues: true,
+        showChartValuesInPercentage: true,
+        showChartValuesOutside: false,
+        decimalPlaces: 0,
+      ),
+      );
+
   }
 }
